@@ -9,6 +9,13 @@ const loader = document.querySelector('.loader');
 const form = document.querySelector('.img-information');
 const searchInput = document.querySelector('.input-img-name');
 
+function showLoader() {
+  loader.style.display = 'block';
+}
+function hideLoader() {
+  loader.style.display = 'none';
+}
+//loader.classList.add('hidden');
 let searchParamsObj = {
   key: '41575459-699006cd61f4fecce9ea2d52d',
   q: '',
@@ -20,8 +27,10 @@ let searchParamsObj = {
 function searchImages(params) {
   searchParamsObj.q = params;
   const searchParams = new URLSearchParams(searchParamsObj);
+  showLoader();
   fetch(`https://pixabay.com/api/?${searchParams}`)
     .then(response => {
+      hideLoader();
       if (!response.ok) {
         throw new Error(
           'Sorry, there are no images matching your search query. Please try again!'
@@ -30,7 +39,7 @@ function searchImages(params) {
       return response.json();
     })
     .then(({ hits }) => {
-      loader.classList.add('hidden');
+      //loader.classList.add('hidden');
 
       const gallery = document.querySelector('.gallery');
       const lightbox = new SimpleLightbox('.gallery a', {
